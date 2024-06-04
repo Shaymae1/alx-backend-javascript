@@ -1,4 +1,4 @@
- const fs = require('fs');
+const fs = require('fs');
 
 /**
  * Counts the students in a CSV data file.
@@ -25,6 +25,7 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
         const studentPropValues = studentRecord
           .slice(0, studentRecord.length - 1);
         const field = studentRecord[studentRecord.length - 1];
+        if (!Object.keys(studentGroups).includes(field)) {
           studentGroups[field] = [];
         }
         const studentEntries = studentPropNames
@@ -35,10 +36,10 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
       const totalStudents = Object
         .values(studentGroups)
         .reduce((pre, cur) => (pre || []).length + cur.length);
-      console.log();
+      console.log(`Number of students: ${totalStudents}`);
       for (const [field, group] of Object.entries(studentGroups)) {
         const studentNames = group.map((student) => student.firstname).join(', ');
-        console.log();
+        console.log(`Number of students in ${field}: ${group.length}. List: ${studentNames}`);
       }
       resolve(true);
     }
